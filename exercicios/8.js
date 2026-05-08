@@ -1,9 +1,25 @@
-lista_pontuações = ['5','2','15','22','11','3','6','9']
+let lista_pontuações = ['10', '20', '5', '30']
 
-const maior_e_menor =(a) => {
-    reformular = Number(a)
-    let  = (Math.max(reformular))
-    let 
+const verificar = (a) => {
+    let numeros = a.map(Number)
+    
+    let recordesBatidos = 0
+    let maiorPontuacao = numeros[0]
+    let menorPontuacao = numeros[0]
+
+    for (let i = 1; i < numeros.length; i++) {
+
+        if (numeros[i] > maiorPontuacao) {
+            maiorPontuacao = numeros[i]
+            recordesBatidos += 1
+        }
+
+        if (numeros[i] < menorPontuacao) {
+            menorPontuacao = numeros[i]
+        }
+    }
+
+    return [recordesBatidos, menorPontuacao]
 }
 
-console.log((maior_e_menor(lista_pontuações)))
+console.log(verificar(lista_pontuações))

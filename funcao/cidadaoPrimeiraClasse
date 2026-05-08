@@ -1,0 +1,6 @@
+// Função em JS é Forst-Class Object (Citizens)
+// Higher order function
+
+// criar de forma literal
+
+function fun1() {}
