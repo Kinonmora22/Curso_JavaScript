@@ -3,4 +3,4 @@ def resultado(nota):
         return print('Aprovado')
     return print('Reprovado')
 
-resultado(5)
+resultado()
