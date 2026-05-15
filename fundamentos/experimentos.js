@@ -15,10 +15,8 @@ console.log(module.exports)
 
 // criando uma variavel maluca: sem var e let!
 
-//nao faca isso em casa!!!!!!!!!!!!!!!!!!!!!!!!!  /* nao faca isso em casa!!!!!!!!!!!!!!!!!!!!!!!!! /*
-                                        //   abc = 3
-//nao faca isso em casa!!!!!!!!!!!!!!!!!!!!!!!!!  /* nao faca isso em casa!!!!!!!!!!!!!!!!!!!!!!!!! /*
+/*nao faca isso em casa!!!!!!!!!!!!!!!!!!!!!!!!!*/  abc = 3  /* nao faca isso em casa!!!!!!!!!!!!!!!!!!!!!!!!!
 
 // console.log(global.abc)
 
-// module.exports = { e: 456, f: false, g: 'teste' }
+// module.exports = { e: 456, f: false, g: 'teste'*/

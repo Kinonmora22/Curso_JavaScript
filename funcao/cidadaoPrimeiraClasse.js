@@ -1,4 +1,4 @@
-// Função em JS é Forst-Class Object (Citizens)
+// Função em JS é First-Class Object (Citizens)
 // Higher order function
 
 // Criar de forma literal
