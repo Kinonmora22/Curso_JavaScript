@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercícios HTML</title>
+</head>
+
+<body>
+    <header>
+        <h1>Exercícios HTML</h1>
+    </header>
+    <nav>
+        <a href wm-nav="exercicios/teste.html">00 - Teste</a> |
+        <a href wm-nav="exercicios/texto1.html">01 - Texto 1</a> |
+        <a href wm-nav="exercicios/texto2.html">02 - Texto 2</a> |
+        <a href wm-nav="exercicios/listas.html">03 - Listas</a> |
+        <a href wm-nav="exercicios/listaAninhada.html">04 - Lista Aninhada</a> |
+        <a href wm-nav="exercicios/links.html">05 - Links</a> |
+        <a href wm-nav="exercicios/tabela.html">06 - Tabela</a> |
+        <a href wm-nav="exercicios/form/form.html">07 - Formulário</a>|
+    </nav>
+    <section id="conteudo"></section>
+    <footer>
+        <br>
+        Curso de Web Moderno
+    </footer>
+    <script>
+        document.querySelectorAll('[wm-nav]').forEach(link => {
+            link.onclick = function (e) {
+                e.preventDefault()
+
+                const conteudo = document.getElementById('conteudo')
+
+                fetch(link.getAttribute('wm-nav'))
+                    .then(resp => resp.text())
+                    .then(html => {
+                        conteudo.innerHTML = html
+
+                        const scripts = conteudo.getElementsByTagName('script')
+
+                        Array.from(scripts).forEach(scriptAntigo => {
+                            const novoScript = document.createElement('script')
+
+                            if (scriptAntigo.src) {
+                                novoScript.src = scriptAntigo.src
+                            } else {
+                                novoScript.innerHTML = scriptAntigo.innerHTML
+                            }
+
+                            document.body.appendChild(novoScript)
+                            document.body.removeChild(novoScript)
+                        })
+                    })
+            }
+        })
+    </script>
+</body>
+
+</html>

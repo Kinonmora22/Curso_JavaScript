@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabela</title>
+</head>
+
+<body>
+
+    <br>
+
+    <table>
+
+        <caption>Produtos</caption>
+
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Preço</th>
+                <th>Quantidade</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td class="copiavel">Ipad</td>
+                <td class="preco copiavel">R$3289,00</td>
+                <td class="quantidade copiavel">5</td>
+                <td class="total copiavel"></td>
+            </tr>
+
+            <tr>
+                <td class="copiavel">Samsung S9</td>
+                <td class="preco copiavel">R$2649,00</td>
+                <td class="quantidade copiavel">8</td>
+                <td class="total copiavel"></td>
+            </tr>
+
+            <tr>
+                <td class="copiavel">RTX 5070</td>
+                <td class="preco copiavel">R$3986,00</td>
+                <td class="quantidade copiavel">5</td>
+                <td class="total copiavel"></td>
+            </tr>
+
+            <tr>
+                <td class="copiavel">Ryzen 7 5700X</td>
+                <td class="preco copiavel">R$1103,00</td>
+                <td class="quantidade copiavel">8</td>
+                <td class="total copiavel"></td>
+            </tr>
+
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td>Total</td>
+                <td></td>
+                <td></td>
+                <td id="totalFinal" class="copiavel"></td>
+            </tr>
+        </tfoot>
+
+    </table>
+
+
+
+    <script>
+
+        // =========================
+        // CALCULAR TOTAIS
+        // =========================
+
+        const linhas =
+            document.querySelectorAll("tbody tr")
+
+        let somaTotal = 0
+
+        linhas.forEach(linha => {
+
+            let precoTexto =
+                linha.querySelector(".preco").textContent
+
+            precoTexto = precoTexto
+                .replace("R$", "")
+                .replace(",", ".")
+                .trim()
+
+            const preco =
+                Number(precoTexto)
+
+            const quantidade =
+                Number(
+                    linha.querySelector(".quantidade").textContent
+                )
+
+            const total =
+                preco * quantidade
+
+            linha.querySelector(".total").textContent =
+                total.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                })
+
+            somaTotal += total
+        })
+
+        document.getElementById("totalFinal").textContent =
+            somaTotal.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL"
+            })
+
+
+
+        // =========================
+        // COPIAR TEXTO
+        // =========================
+
+        const celulas =
+            document.querySelectorAll(".copiavel")
+
+        celulas.forEach(celula => {
+
+            celula.addEventListener("click", () => {
+
+                const texto =
+                    celula.textContent.trim()
+
+                navigator.clipboard.writeText(texto)
+
+
+
+                // Remove aviso antigo
+                const avisoAntigo =
+                    celula.querySelector(".aviso-copiado")
+
+                if (avisoAntigo) {
+
+                    avisoAntigo.remove()
+                }
+
+
+
+                // Cria aviso
+                const aviso =
+                    document.createElement("span")
+
+                aviso.textContent = "Copiado!"
+
+                aviso.classList.add("aviso-copiado")
+
+                celula.appendChild(aviso)
+
+
+
+                // Remove aviso depois
+                setTimeout(() => {
+
+                    aviso.remove()
+
+                }, 700)
+
+            })
+
+        })
+
+    </script>
+
+
+
+    <style>
+        body {
+
+            background-color: #f4f4f4;
+        }
+
+
+
+        table {
+
+            border: solid 2px #444;
+
+            border-collapse: collapse;
+
+            font-family: Poppins;
+
+            margin-top: 50px;
+
+            margin-bottom: 50px;
+
+            margin-left: auto;
+
+            margin-right: auto;
+
+            background-image:
+                url('file:///C:/Users/hasse_xsijcog/Documents/Teste C# jogo/imagem.png');
+
+            background-repeat: no-repeat;
+
+            background-position: center;
+        }
+
+
+
+        caption {
+
+            user-select: none;
+
+            -webkit-user-select: none;
+
+            -ms-user-select: none;
+
+            text-decoration: underline;
+
+            text-align: center;
+
+            font-family: Good Times;
+
+            font-size: 20px;
+
+            word-spacing: 30px;
+
+            margin-bottom: 30px;
+
+            color: #9a6341;
+        }
+
+
+
+        thead tr {
+
+            background-color: #9a6341;
+
+            color: white;
+
+            border-bottom: solid 2px #444;
+        }
+
+
+
+        th,
+        td {
+
+            padding: 10px;
+
+            text-align: center;
+
+            vertical-align: middle;
+        }
+
+
+
+        tbody td {
+
+            border-bottom: solid 2px #444;
+        }
+
+
+
+        tfoot {
+
+            border-top: solid 2px #444;
+
+            background-color: #9a6341;
+
+            color: white;
+
+            font-weight: bold;
+        }
+
+        tfoot td:empty {
+
+            user-select: none;
+
+            -webkit-user-select: none;
+
+            -ms-user-select: none;
+        }
+
+
+
+        /* ========================= */
+        /* ELEMENTOS COPIÁVEIS */
+        /* ========================= */
+
+        .copiavel {
+
+            position: relative;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+            user-select: none;
+
+            -webkit-user-select: none;
+
+            -ms-user-select: none;
+        }
+
+        .copiavel:hover {
+
+            background-color: #cfcfcf;
+        }
+
+
+
+        /* ========================= */
+        /* AVISO COPIADO */
+        /* ========================= */
+
+        .aviso-copiado {
+
+            position: absolute;
+
+            top: -30px;
+
+            left: 50%;
+
+            transform: translateX(-50%) scale(0);
+
+            background-color: #333;
+
+            color: white;
+
+            padding: 4px 8px;
+
+            border-radius: 5px;
+
+            font-size: 12px;
+
+            white-space: nowrap;
+
+            pointer-events: none;
+
+            opacity: 0;
+
+            animation: aparecerDesaparecer 0.7s forwards;
+        }
+
+
+
+        /* ========================= */
+        /* ANIMAÇÃO */
+        /* ========================= */
+
+        @keyframes aparecerDesaparecer {
+
+            0% {
+
+                opacity: 0;
+
+                transform:
+                    translateX(-50%) scale(0.5);
+            }
+
+            20% {
+
+                opacity: 1;
+
+                transform:
+                    translateX(-50%) scale(1);
+            }
+
+            80% {
+
+                opacity: 1;
+
+                transform:
+                    translateX(-50%) scale(1);
+            }
+
+            100% {
+
+                opacity: 0;
+
+                transform:
+                    translateX(-50%) scale(0.5);
+            }
+        }
+    </style>
+
+</body>
+
+</html>

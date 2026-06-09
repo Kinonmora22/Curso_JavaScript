@@ -1,0 +1,69 @@
+<!-- Lista Aninhada (Oh negócio feio viu)-->
+
+<!-- CSS para esconder as listas filhas por padrão e colocar a mãozinha no cursor -->
+<style>
+    /* Esconde todas as listas que estão dentro de outra lista */
+    .tree ul {
+        display: none;
+    }
+
+    /* Garante que as pastas tenham o cursor de clique */
+    [wm-folder] {
+        cursor: pointer;
+    }
+</style>
+
+<h1>Projeto</h1>
+<ul class="tree">
+    <li>
+        <a href="#" wm-folder>backend</a>
+        <ul>
+            <li>
+                <a href="#" wm-folder>app</a>
+                <ul>
+                    <li>produto.js</li>
+                    <li>usuario.js</li>
+                    <li>venda.js</li>
+                </ul>
+            </li>
+            <li>
+                <a href="#" wm-folder>config</a>
+                <ul>
+                    <li>banco.js</li>
+                    <li>rotas.js</li>
+                    <li>servidor.js</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="#" wm-folder>frontend</a>
+        <ul>
+            <li>
+                <a href="#" wm-folder>public</a>
+                <ul>
+                    <li>app.css</li>
+                    <li>app.js</li>
+                    <li>index.html</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<link rel="stylesheet" href="http://files.cod3r.com.br/curso-web/tree.css">
+<script>
+    document.querySelectorAll('[wm-folder]').forEach(folder => {
+        folder.onclick = function (e) {
+            e.preventDefault()
+            const ul = folder.nextElementSibling
+
+            // Pega o estilo real renderizado na tela (computado) caso o inline esteja vazio
+            const currentDisplay = window.getComputedStyle(ul).display
+
+            // Alterna baseado no estado atual real
+            ul.style.display = currentDisplay === 'none' ? 'block' : 'none'
+        }
+    })
+    console.log("arvore")
+</script>
