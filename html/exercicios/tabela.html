@@ -13,7 +13,7 @@
 
     <table>
 
-        <caption>Produtos</caption>
+        <caption>HARDWARE</caption>
 
         <thead>
             <tr>
@@ -27,30 +27,62 @@
         <tbody>
 
             <tr>
-                <td class="copiavel">Ipad</td>
-                <td class="preco copiavel">R$3289,00</td>
-                <td class="quantidade copiavel">5</td>
+                <td class="copiavel">B550M K MicroATX</td>
+                <td class="preco copiavel">R$ 630,00</td>
+                <td class="quantidade copiavel">1</td>
                 <td class="total copiavel"></td>
             </tr>
 
             <tr>
-                <td class="copiavel">Samsung S9</td>
-                <td class="preco copiavel">R$2649,00</td>
-                <td class="quantidade copiavel">8</td>
+                <td class="copiavel">SSD 2TB NVME SANDISK</td>
+                <td class="preco copiavel">R$ 1360,00</td>
+                <td class="quantidade copiavel">1</td>
+                <td class="total copiavel"></td>
+            </tr>
+
+
+            <tr>
+                <td class="copiavel">DDR4-3200 8GB Kingston</td>
+                <td class="preco copiavel">R$ 300,00</td>
+                <td class="quantidade copiavel">2</td>
+                <td class="total copiavel"></td>
+            </tr>
+
+
+            <tr>
+                <td class="copiavel">Gabinete Mid Tower</td>
+                <td class="preco copiavel">R$ 240,00</td>
+                <td class="quantidade copiavel">1</td>
+                <td class="total copiavel"></td>
+            </tr>
+
+
+            <tr>
+                <td class="copiavel">MSI MAG A650BN</td>
+                <td class="preco copiavel">R$ 300,00</td>
+                <td class="quantidade copiavel">1</td>
                 <td class="total copiavel"></td>
             </tr>
 
             <tr>
                 <td class="copiavel">RTX 5070</td>
-                <td class="preco copiavel">R$3986,00</td>
-                <td class="quantidade copiavel">5</td>
+                <td class="preco copiavel">R$ 3986,00</td>
+                <td class="quantidade copiavel">1</td>
                 <td class="total copiavel"></td>
             </tr>
 
             <tr>
                 <td class="copiavel">Ryzen 7 5700X</td>
-                <td class="preco copiavel">R$1103,00</td>
-                <td class="quantidade copiavel">8</td>
+                <td class="preco copiavel">R$ 1103,00</td>
+                <td class="quantidade copiavel">1</td>
+                <td class="total copiavel"></td>
+            </tr>
+
+
+            <tr>
+                <td class="copiavel">Deepcool AK400</td>
+                <td class="preco copiavel">R$ 170,00</td>
+                <td class="quantidade copiavel">1</td>
                 <td class="total copiavel"></td>
             </tr>
 
@@ -92,6 +124,12 @@
 
             const preco =
                 Number(precoTexto)
+
+            linha.querySelector(".preco").textContent =
+                preco.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL"
+                })
 
             const quantidade =
                 Number(
@@ -159,7 +197,7 @@
 
 
 
-                // Remove aviso depois
+                // Remove aviso depois  
                 setTimeout(() => {
 
                     aviso.remove()
