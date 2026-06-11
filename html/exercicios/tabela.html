@@ -11,95 +11,107 @@
 
     <br>
 
-    <table>
-
-        <caption>HARDWARE</caption>
-
-        <thead>
-            <tr>
-                <th>Produto</th>
-                <th>Preço</th>
-                <th>Quantidade</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-
-        <tbody>
-
-            <tr>
-                <td class="copiavel">B550M K MicroATX</td>
-                <td class="preco copiavel">R$ 630,00</td>
-                <td class="quantidade copiavel">1</td>
-                <td class="total copiavel"></td>
-            </tr>
-
-            <tr>
-                <td class="copiavel">SSD 2TB NVME SANDISK</td>
-                <td class="preco copiavel">R$ 1360,00</td>
-                <td class="quantidade copiavel">1</td>
-                <td class="total copiavel"></td>
-            </tr>
+    <div class="container-tabela">
 
 
-            <tr>
-                <td class="copiavel">DDR4-3200 8GB Kingston</td>
-                <td class="preco copiavel">R$ 300,00</td>
-                <td class="quantidade copiavel">2</td>
-                <td class="total copiavel"></td>
-            </tr>
 
 
-            <tr>
-                <td class="copiavel">Gabinete Mid Tower</td>
-                <td class="preco copiavel">R$ 240,00</td>
-                <td class="quantidade copiavel">1</td>
-                <td class="total copiavel"></td>
-            </tr>
+        <table>
+
+            <caption>HARDWARE</caption>
+
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Preço</th>
+                    <th>Quantidade</th>
+                    <th>Total</th>
+
+                    <th class="th-botao">
+
+                        <button id="toggleCopiarLinhas"></button>
+
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td class="copiavel">B550M K MicroATX</td>
+                    <td class="preco copiavel">R$ 630,00</td>
+                    <td class="quantidade copiavel">1</td>
+                    <td class="total copiavel"></td>
+                </tr>
+
+                <tr>
+                    <td class="copiavel">SSD 2TB NVME SANDISK</td>
+                    <td class="preco copiavel">R$ 1360,00</td>
+                    <td class="quantidade copiavel">1</td>
+                    <td class="total copiavel"></td>
+                </tr>
 
 
-            <tr>
-                <td class="copiavel">MSI MAG A650BN</td>
-                <td class="preco copiavel">R$ 300,00</td>
-                <td class="quantidade copiavel">1</td>
-                <td class="total copiavel"></td>
-            </tr>
-
-            <tr>
-                <td class="copiavel">RTX 5070</td>
-                <td class="preco copiavel">R$ 3986,00</td>
-                <td class="quantidade copiavel">1</td>
-                <td class="total copiavel"></td>
-            </tr>
-
-            <tr>
-                <td class="copiavel">Ryzen 7 5700X</td>
-                <td class="preco copiavel">R$ 1103,00</td>
-                <td class="quantidade copiavel">1</td>
-                <td class="total copiavel"></td>
-            </tr>
+                <tr>
+                    <td class="copiavel">DDR4-3200 8GB Kingston</td>
+                    <td class="preco copiavel">R$ 300,00</td>
+                    <td class="quantidade copiavel">2</td>
+                    <td class="total copiavel"></td>
+                </tr>
 
 
-            <tr>
-                <td class="copiavel">Deepcool AK400</td>
-                <td class="preco copiavel">R$ 170,00</td>
-                <td class="quantidade copiavel">1</td>
-                <td class="total copiavel"></td>
-            </tr>
-
-        </tbody>
-
-        <tfoot>
-            <tr>
-                <td>Total</td>
-                <td></td>
-                <td></td>
-                <td id="totalFinal" class="copiavel"></td>
-            </tr>
-        </tfoot>
-
-    </table>
+                <tr>
+                    <td class="copiavel">Gabinete Mid Tower</td>
+                    <td class="preco copiavel">R$ 240,00</td>
+                    <td class="quantidade copiavel">1</td>
+                    <td class="total copiavel"></td>
+                </tr>
 
 
+                <tr>
+                    <td class="copiavel">MSI MAG A650BN</td>
+                    <td class="preco copiavel">R$ 300,00</td>
+                    <td class="quantidade copiavel">1</td>
+                    <td class="total copiavel"></td>
+                </tr>
+
+                <tr>
+                    <td class="copiavel">RTX 5070</td>
+                    <td class="preco copiavel">R$ 3986,00</td>
+                    <td class="quantidade copiavel">1</td>
+                    <td class="total copiavel"></td>
+                </tr>
+
+                <tr>
+                    <td class="copiavel">Ryzen 7 5700X</td>
+                    <td class="preco copiavel">R$ 1103,00</td>
+                    <td class="quantidade copiavel">1</td>
+                    <td class="total copiavel"></td>
+                </tr>
+
+
+                <tr>
+                    <td class="copiavel">Deepcool AK400</td>
+                    <td class="preco copiavel">R$ 170,00</td>
+                    <td class="quantidade copiavel">1</td>
+                    <td class="total copiavel"></td>
+                </tr>
+
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td>Total Final</td>
+                    <td></td>
+                    <td></td>
+                    <td id="totalFinal" class="copiavel"></td>
+                </tr>
+            </tfoot>
+
+        </table>
+
+
+    </div>
 
     <script>
 
@@ -107,19 +119,18 @@
         // CALCULAR TOTAIS
         // =========================
 
-        const linhas =
-            document.querySelectorAll("tbody tr")
+        const linhas = document.querySelectorAll("#conteudo tbody tr")
 
         let somaTotal = 0
 
-        linhas.forEach(linha => {
+        linhas.forEach((linha, index) => {
 
-            let precoTexto =
-                linha.querySelector(".preco").textContent
+            let precoTexto = linha.querySelector(".preco").textContent
 
             precoTexto = precoTexto
-                .replace("R$", "")
-                .replace(",", ".")
+                .replace(/R\$\s*/g, "")   // remove "R$"
+                .replace(/\./g, "")        // remove pontos de milhar
+                .replace(",", ".")         // troca vírgula decimal por ponto
                 .trim()
 
             const preco =
@@ -131,10 +142,9 @@
                     currency: "BRL"
                 })
 
-            const quantidade =
-                Number(
-                    linha.querySelector(".quantidade").textContent
-                )
+            const quantidade = Number(
+                linha.querySelector(".quantidade").textContent.trim()
+            )
 
             const total =
                 preco * quantidade
@@ -160,15 +170,13 @@
         // COPIAR TEXTO
         // =========================
 
-        const celulas =
-            document.querySelectorAll(".copiavel")
+        const celulas = document.querySelectorAll("#conteudo .copiavel")
 
         celulas.forEach(celula => {
 
             celula.addEventListener("click", () => {
 
-                const texto =
-                    celula.textContent.trim()
+                const texto = celula.firstChild?.nodeValue?.trim() ?? celula.textContent.trim()
 
                 navigator.clipboard.writeText(texto)
 
@@ -208,19 +216,251 @@
 
         })
 
+
     </script>
 
 
 
     <style>
-        body {
+        /* ========================= */
+        /* BOTÃO COPIAR TUDO */
+        /* ========================= */
 
+        .botao-copiar-tudo {
+
+            color: white;
+
+            position: absolute;
+
+            right: -90px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 30px;
+
+            height: 30px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            background-color: #757828;
+
+            background-image:
+                url('imgs/copy-main.svg');
+
+            background-repeat: no-repeat;
+
+            background-position: center;
+
+            background-size: 16px;
+
+            transition: 0.2s;
+
+            opacity: 0;
+
+            animation: aparecerBotaoTudo 0.25s forwards;
+        }
+
+        .botao-copiar-tudo:hover {
+
+            scale: 1.1;
+        }
+
+        .botao-copiar-tudo-removendo {
+
+            animation: removerBotaoTudo 0.25s forwards;
+        }
+
+        @keyframes aparecerBotaoTudo {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(-50%) translateX(-15px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(-50%) translateX(0);
+            }
+        }
+
+        @keyframes removerBotaoTudo {
+
+            from {
+
+                opacity: 1;
+
+                transform:
+                    translateY(-50%) translateX(0);
+            }
+
+            to {
+
+                opacity: 0;
+
+                transform:
+                    translateY(-50%) translateX(-15px);
+            }
+        }
+
+        .container-tabela {
+
+            position: relative;
+
+            width: fit-content;
+
+            margin-left: auto;
+
+            margin-right: auto;
+        }
+
+
+
+        /* ========================= */
+        /* BOTÃO PRINCIPAL */
+        /* ========================= */
+
+        .th-botao {
+            width: 0;
+
+            padding: 0;
+
+            border: none;
+
+            background: transparent;
+
+            position: relative;
+
+        }
+
+
+
+        #toggleCopiarLinhas {
+
+            position: absolute;
+
+            right: -45px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 30px;
+
+            height: 30px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            background-color: #9a6341;
+
+            background:
+                #784728 url('imgs/copy-main.svg');
+
+            background-repeat: no-repeat;
+
+            background-position: center;
+
+            background-size: 16px;
+
+            color: white;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+        #toggleCopiarLinhas:hover {
+
+            transform: translateY(-50%) scale(1.1);
+        }
+
+
+
+        /* ========================= */
+        /* BOTÕES DAS LINHAS */
+        /* ========================= */
+
+        .botao-copiar-linha {
+
+            position: absolute;
+
+            right: -45px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 30px;
+
+            height: 30px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            cursor: pointer;
+
+            background-color: #9a6341;
+
+            background-image:
+                url('imgs/copy-small.svg');
+
+            background-repeat: no-repeat;
+
+            background-position: center;
+
+            background-size: 16px;
+
+            color: white;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+        .botao-copiar-linha:hover {
+
+            scale: 1.1;
+        }
+
+
+
+        /* Cada linha precisa ser relativa */
+        tbody tr {
+
+            position: relative;
+        }
+
+        body {
             background-color: #f4f4f4;
+
+            user-select: none;
+
+            -webkit-user-select: none;
+
+            -ms-user-select: none;
         }
 
 
 
         table {
+
+
 
             border: solid 2px #444;
 
@@ -236,23 +476,11 @@
 
             margin-right: auto;
 
-            background-image:
-                url('file:///C:/Users/hasse_xsijcog/Documents/Teste C# jogo/imagem.png');
-
-            background-repeat: no-repeat;
-
-            background-position: center;
         }
 
 
 
         caption {
-
-            user-select: none;
-
-            -webkit-user-select: none;
-
-            -ms-user-select: none;
 
             text-decoration: underline;
 
@@ -266,7 +494,7 @@
 
             margin-bottom: 30px;
 
-            color: #9a6341;
+            color: #784728;
         }
 
 
@@ -311,17 +539,6 @@
 
             font-weight: bold;
         }
-
-        tfoot td:empty {
-
-            user-select: none;
-
-            -webkit-user-select: none;
-
-            -ms-user-select: none;
-        }
-
-
 
         /* ========================= */
         /* ELEMENTOS COPIÁVEIS */
@@ -421,6 +638,65 @@
                 transform:
                     translateX(-50%) scale(0.5);
             }
+        }
+
+        /* ========================= */
+        /* ANIMAÇÕES BOTÕES LINHA */
+        /* ========================= */
+
+        .botao-copiar-linha {
+
+            opacity: 0;
+
+            animation: aparecerBotao 0.25s forwards;
+        }
+
+        .botao-removendo {
+
+            animation: removerBotao 0.25s forwards;
+        }
+
+        @keyframes aparecerBotao {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(-70%);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(-50%);
+            }
+        }
+
+        @keyframes removerBotao {
+
+            from {
+
+                opacity: 1;
+
+                transform:
+                    translateY(-50%);
+            }
+
+            to {
+
+                opacity: 0;
+
+                transform:
+                    translateY(-70%);
+            }
+        }
+
+        .botao-copiar-linha {
+
+            animation-fill-mode: forwards;
         }
     </style>
 

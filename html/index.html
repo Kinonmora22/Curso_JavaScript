@@ -38,24 +38,257 @@
                     .then(resp => resp.text())
                     .then(html => {
                         conteudo.innerHTML = html
-
-                        const scripts = conteudo.getElementsByTagName('script')
-
-                        Array.from(scripts).forEach(scriptAntigo => {
-                            const novoScript = document.createElement('script')
-
-                            if (scriptAntigo.src) {
-                                novoScript.src = scriptAntigo.src
-                            } else {
-                                novoScript.innerHTML = scriptAntigo.innerHTML
-                            }
-
-                            document.body.appendChild(novoScript)
-                            document.body.removeChild(novoScript)
-                        })
+                        inicializarTabela()
                     })
             }
         })
+
+        function inicializarTabela() {
+
+            const conteudo = document.getElementById('conteudo')
+
+            // Só roda se a tabela estiver presente na página
+            const linhas = conteudo.querySelectorAll('tbody tr')
+            if (!linhas.length) return
+
+            // =========================
+            // CALCULAR TOTAIS
+            // =========================
+
+            let somaTotal = 0
+
+            linhas.forEach((linha, index) => {
+                let precoTexto = linha.querySelector('.preco').textContent
+
+                precoTexto = precoTexto
+                    .replace(/R\$\s*/g, '')
+                    .replace(/\./g, '')
+                    .replace(',', '.')
+                    .trim()
+
+                const preco = Number(precoTexto)
+
+                // Guarda o valor numérico como atributo para não depender do textContent
+                linha.querySelector('.preco').dataset.valor = preco
+
+                linha.querySelector('.preco').textContent =
+                    preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+
+                const quantidade = Number(linha.querySelector('.quantidade').textContent.trim())
+                const total = preco * quantidade
+
+                linha.querySelector('.total').textContent =
+                    total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+
+                somaTotal += total
+            })
+
+            conteudo.querySelector('#totalFinal').textContent =
+                somaTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+
+            // =========================
+            // COPIAR TEXTO
+            // =========================
+
+            conteudo.querySelectorAll('.copiavel').forEach(celula => {
+                celula.addEventListener('click', () => {
+                    const texto = celula.firstChild?.nodeValue?.trim() ?? celula.textContent.trim()
+
+                    navigator.clipboard.writeText(texto)
+
+                    const avisoAntigo = celula.querySelector('.aviso-copiado')
+                    if (avisoAntigo) avisoAntigo.remove()
+
+                    const aviso = document.createElement('span')
+                    aviso.textContent = 'Copiado!'
+                    aviso.classList.add('aviso-copiado')
+                    celula.appendChild(aviso)
+
+                    setTimeout(() => aviso.remove(), 700)
+
+
+                })
+                // =========================
+                // COPIAR LINHAS INTEIRAS
+                // =========================
+
+            })
+            const botaoToggle =
+                conteudo.querySelector('#toggleCopiarLinhas')
+
+            if (!botaoToggle) return
+
+            let modoCopiarLinhas = false
+
+            botaoToggle.addEventListener('click', () => {
+
+                modoCopiarLinhas = !modoCopiarLinhas
+
+                // =========================
+                // BOTÃO COPIAR TUDO
+                // =========================
+
+                const botaoTudoExistente =
+                    conteudo.querySelector('.botao-copiar-tudo')
+
+                // REMOVE
+                if (!modoCopiarLinhas) {
+
+                    if (botaoTudoExistente) {
+
+                        botaoTudoExistente.classList.add(
+                            'botao-copiar-tudo-removendo'
+                        )
+
+                        setTimeout(() => {
+
+                            botaoTudoExistente.remove()
+
+                        }, 250)
+                    }
+                }
+
+                // CRIA
+                else if (!botaoTudoExistente) {
+
+                    const botaoTudo =
+                        document.createElement('button')
+
+                    botaoTudo.classList.add(
+                        'botao-copiar-tudo'
+                    )
+
+                    botaoTudo.addEventListener('click', () => {
+
+                        let textoFinal = ''
+
+                        linhas.forEach(linha => {
+
+                            const produto =
+                                linha.children[0].textContent.trim()
+
+                            const preco =
+                                linha.children[1].textContent.trim()
+
+                            const quantidade =
+                                linha.children[2].textContent.trim()
+
+                            const total =
+                                linha.children[3].textContent.trim()
+
+                            textoFinal +=
+                                `Produto: ${produto}
+Preço: ${preco}
+Quantidade: ${quantidade}
+Total: ${total}
+
+`
+                        })
+
+                        textoFinal +=
+                            `Total Final: ${conteudo.querySelector('#totalFinal')
+                                .textContent.trim()
+                            }`
+
+                        navigator.clipboard.writeText(textoFinal)
+
+                        // Feedback visual
+                        botaoTudo.innerHTML = '✔'
+
+                        botaoTudo.style.backgroundImage =
+                            'none'
+
+                        setTimeout(() => {
+
+                            botaoTudo.innerHTML = ''
+
+                            botaoTudo.style.backgroundImage =
+                                "url('imgs/copy-main.svg')"
+
+                        }, 700)
+                    })
+
+                    conteudo
+                        .querySelector('.th-botao')
+                        .appendChild(botaoTudo)
+                }
+
+                linhas.forEach((linha, index) => {
+
+                    const botaoExistente =
+                        linha.querySelector('.botao-copiar-linha')
+
+                    // REMOVE
+                    if (!modoCopiarLinhas) {
+
+                        if (botaoExistente) {
+
+                            botaoExistente.classList.add('botao-removendo')
+
+                            setTimeout(() => {
+
+                                botaoExistente.remove()
+
+                            }, 250)
+                        }
+
+                        return
+                    }
+
+                    // EVITA DUPLICAR
+                    if (botaoExistente) return
+
+                    // CRIA BOTÃO
+                    const botao =
+                        document.createElement('button')
+
+                    botao.classList.add('botao-copiar-linha')
+
+                    botao.style.animationDelay = `${index * 0.1}s`
+
+                    botao.innerHTML = ''
+
+                    botao.addEventListener('click', () => {
+
+                        const produto =
+                            linha.children[0].textContent.trim()
+
+                        const preco =
+                            linha.children[1].textContent.trim()
+
+                        const quantidade =
+                            linha.children[2].textContent.trim()
+
+                        const total =
+                            linha.children[3].textContent.trim()
+
+                        const texto =
+                            `Produto: ${produto}
+Preço: ${preco}
+Quantidade: ${quantidade}
+Total: ${total}`
+
+                        navigator.clipboard.writeText(texto)
+
+                        // Feedback visual
+                        botao.innerHTML = '✔'
+
+                        botao.style.backgroundImage = 'none'
+
+                        setTimeout(() => {
+
+                            botao.innerHTML = ''
+
+                            botao.style.backgroundImage =
+                                "url('imgs/copy-small.svg')"
+
+                        }, 700)
+                    })
+
+                    linha.appendChild(botao)
+                })
+            })
+        }
     </script>
 
 

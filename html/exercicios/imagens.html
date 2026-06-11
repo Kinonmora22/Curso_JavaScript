@@ -9,12 +9,55 @@
 
     <img src="https://i.makeagif.com/media/9-13-2016/maD-XZ.gif">
 </p>
+
+<p class="circular">
+    <img src="https://onlinepngtools.com/images/examples-onlinepngtools/man-on-the-mountain-edge-avatar.png"
+        alt="Plantas" height="168">
+</p>
+
+<p class="texto">
+    <img src="https://www.svgrepo.com/show/452030/avatar-default.svg" alt="Avatar" height="50">
+    Texto legal
+</p>
+
+<p class="cidade"></p>
+
+<p>
+    <picture>
+        <source srcset="https://cdn.svglogos.dev/logos/grok-icon.svg" media="(min-width: 600px)">
+        <img src="https://www.svgrepo.com/show/452030/avatar-default.svg" alt="">
+    </picture>
+</p>
+
 <style>
+    p.texto {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: fit-content;
+        /* ← encolhe ao tamanho do conteúdo */
+        margin: 50px auto;
+        /* ← centraliza horizontalmente */
+    }
+
     p {
         margin-top: 50px;
         margin-bottom: 50px;
         text-align: center;
+    }
 
+    p.cidade {
+        width: 600px;
+        height: 336px;
+        background-image: url('https://cdn.creativefabrica.com/2020/03/14/City-vector-background-Graphics-3646051-1.jpg');
+        background-repeat: no-repeat;
+        background-size: 100%;
+        margin: 50px auto;
+    }
 
+    picture {
+        margin-top: 50px;
+        margin-bottom: 50px;
+        text-align: center;
     }
 </style>
