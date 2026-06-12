@@ -8,95 +8,79 @@
 </head>
 
 <body>
-
     <br>
-
     <div class="container-tabela">
-
-
-
-
         <table>
-
             <caption>HARDWARE</caption>
-
             <thead>
                 <tr>
                     <th>Produto</th>
                     <th>Preço</th>
                     <th>Quantidade</th>
                     <th>Total</th>
-
                     <th class="th-botao">
-
                         <button id="toggleCopiarLinhas"></button>
-
                     </th>
                 </tr>
             </thead>
 
             <tbody>
-
                 <tr>
                     <td class="copiavel">B550M K MicroATX</td>
                     <td class="preco copiavel">R$ 630,00</td>
                     <td class="quantidade copiavel">1</td>
                     <td class="total copiavel"></td>
+                    <td class="td-botao"></td>
                 </tr>
-
                 <tr>
                     <td class="copiavel">SSD 2TB NVME SANDISK</td>
                     <td class="preco copiavel">R$ 1360,00</td>
                     <td class="quantidade copiavel">1</td>
                     <td class="total copiavel"></td>
+                    <td class="td-botao"></td>
                 </tr>
-
-
                 <tr>
                     <td class="copiavel">DDR4-3200 8GB Kingston</td>
                     <td class="preco copiavel">R$ 300,00</td>
                     <td class="quantidade copiavel">2</td>
                     <td class="total copiavel"></td>
+                    <td class="td-botao"></td>
                 </tr>
-
-
                 <tr>
                     <td class="copiavel">Gabinete Mid Tower</td>
                     <td class="preco copiavel">R$ 240,00</td>
                     <td class="quantidade copiavel">1</td>
                     <td class="total copiavel"></td>
+                    <td class="td-botao"></td>
                 </tr>
-
-
                 <tr>
                     <td class="copiavel">MSI MAG A650BN</td>
                     <td class="preco copiavel">R$ 300,00</td>
                     <td class="quantidade copiavel">1</td>
                     <td class="total copiavel"></td>
+                    <td class="td-botao"></td>
                 </tr>
-
                 <tr>
                     <td class="copiavel">RTX 5070</td>
                     <td class="preco copiavel">R$ 3986,00</td>
                     <td class="quantidade copiavel">1</td>
                     <td class="total copiavel"></td>
+                    <td class="td-botao"></td>
                 </tr>
-
                 <tr>
                     <td class="copiavel">Ryzen 7 5700X</td>
                     <td class="preco copiavel">R$ 1103,00</td>
                     <td class="quantidade copiavel">1</td>
                     <td class="total copiavel"></td>
+                    <td class="td-botao"></td>
                 </tr>
-
-
                 <tr>
                     <td class="copiavel">Deepcool AK400</td>
                     <td class="preco copiavel">R$ 170,00</td>
                     <td class="quantidade copiavel">1</td>
                     <td class="total copiavel"></td>
+                    <td class="td-botao"></td>
                 </tr>
-
             </tbody>
 
             <tfoot>
@@ -105,601 +89,263 @@
                     <td></td>
                     <td></td>
                     <td id="totalFinal" class="copiavel"></td>
+                    <td class="td-botao"></td>
                 </tr>
             </tfoot>
-
         </table>
-
-
     </div>
 
-    <script>
-
-        // =========================
-        // CALCULAR TOTAIS
-        // =========================
-
-        const linhas = document.querySelectorAll("#conteudo tbody tr")
-
-        let somaTotal = 0
-
-        linhas.forEach((linha, index) => {
-
-            let precoTexto = linha.querySelector(".preco").textContent
-
-            precoTexto = precoTexto
-                .replace(/R\$\s*/g, "")   // remove "R$"
-                .replace(/\./g, "")        // remove pontos de milhar
-                .replace(",", ".")         // troca vírgula decimal por ponto
-                .trim()
-
-            const preco =
-                Number(precoTexto)
-
-            linha.querySelector(".preco").textContent =
-                preco.toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL"
-                })
-
-            const quantidade = Number(
-                linha.querySelector(".quantidade").textContent.trim()
-            )
-
-            const total =
-                preco * quantidade
-
-            linha.querySelector(".total").textContent =
-                total.toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL"
-                })
-
-            somaTotal += total
-        })
-
-        document.getElementById("totalFinal").textContent =
-            somaTotal.toLocaleString("pt-BR", {
-                style: "currency",
-                currency: "BRL"
-            })
-
-
-
-        // =========================
-        // COPIAR TEXTO
-        // =========================
-
-        const celulas = document.querySelectorAll("#conteudo .copiavel")
-
-        celulas.forEach(celula => {
-
-            celula.addEventListener("click", () => {
-
-                const texto = celula.firstChild?.nodeValue?.trim() ?? celula.textContent.trim()
-
-                navigator.clipboard.writeText(texto)
-
-
-
-                // Remove aviso antigo
-                const avisoAntigo =
-                    celula.querySelector(".aviso-copiado")
-
-                if (avisoAntigo) {
-
-                    avisoAntigo.remove()
-                }
-
-
-
-                // Cria aviso
-                const aviso =
-                    document.createElement("span")
-
-                aviso.textContent = "Copiado!"
-
-                aviso.classList.add("aviso-copiado")
-
-                celula.appendChild(aviso)
-
-
-
-                // Remove aviso depois  
-                setTimeout(() => {
-
-                    aviso.remove()
-
-                }, 700)
-
-            })
-
-        })
-
-
-    </script>
-
-
-
     <style>
-        /* ========================= */
-        /* BOTÃO COPIAR TUDO */
-        /* ========================= */
-
-        .botao-copiar-tudo {
-
-            color: white;
-
-            position: absolute;
-
-            right: -90px;
-
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            width: 30px;
-
-            height: 30px;
-
-            border: none;
-
-            border-radius: 50%;
-
-            cursor: pointer;
-
-            background-color: #757828;
-
-            background-image:
-                url('imgs/copy-main.svg');
-
-            background-repeat: no-repeat;
-
-            background-position: center;
-
-            background-size: 16px;
-
-            transition: 0.2s;
-
-            opacity: 0;
-
-            animation: aparecerBotaoTudo 0.25s forwards;
-        }
-
-        .botao-copiar-tudo:hover {
-
-            scale: 1.1;
-        }
-
-        .botao-copiar-tudo-removendo {
-
-            animation: removerBotaoTudo 0.25s forwards;
-        }
-
-        @keyframes aparecerBotaoTudo {
-
-            from {
-
-                opacity: 0;
-
-                transform:
-                    translateY(-50%) translateX(-15px);
-            }
-
-            to {
-
-                opacity: 1;
-
-                transform:
-                    translateY(-50%) translateX(0);
-            }
-        }
-
-        @keyframes removerBotaoTudo {
-
-            from {
-
-                opacity: 1;
-
-                transform:
-                    translateY(-50%) translateX(0);
-            }
-
-            to {
-
-                opacity: 0;
-
-                transform:
-                    translateY(-50%) translateX(-15px);
-            }
-        }
-
         .container-tabela {
-
             position: relative;
-
             width: fit-content;
-
-            margin-left: auto;
-
-            margin-right: auto;
+            margin: 50px auto;
         }
 
-
-
-        /* ========================= */
-        /* BOTÃO PRINCIPAL */
-        /* ========================= */
-
-        .th-botao {
+        .th-botao,
+        .td-botao {
+            min-width: 0;
+            max-width: 0;
             width: 0;
-
             padding: 0;
-
             border: none;
-
             background: transparent;
-
             position: relative;
-
         }
 
+        /* ==========================================================================
+        ESTILO ADICIONADO: RECOLARE E EXIBIR CONTEÚDO
+        ========================================================================== */
+        table.escondida thead,
+        table.escondida tbody,
+        table.escondida tfoot {
+            display: none;
+        }
 
-
-        #toggleCopiarLinhas {
-
-            position: absolute;
-
-            right: -45px;
-
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            width: 30px;
-
-            height: 30px;
-
-            border: none;
-
-            border-radius: 50%;
-
+        caption {
+            position: relative;
             cursor: pointer;
+            /* Transforma o mouse em mãozinha ao passar em HARDWARE */
+        }
 
-            background-color: #9a6341;
+        /* ========================================================================== */
 
-            background:
-                #784728 url('imgs/copy-main.svg');
-
-            background-repeat: no-repeat;
-
-            background-position: center;
-
+        /* ==========================================================================
+        BOTÃO PRINCIPAL (TOGGLE)
+        ========================================================================== */
+        #toggleCopiarLinhas {
+            position: absolute;
+            right: -45px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            background: #784728 url('imgs/copy-main.svg') no-repeat center;
             background-size: 16px;
-
-            color: white;
-
-            font-size: 14px;
-
             transition: 0.2s;
+            backface-visibility: hidden;
         }
 
         #toggleCopiarLinhas:hover {
-
-            transform: translateY(-50%) scale(1.1);
+            transform: translateY(-50%) scale(1.2);
         }
 
-
-
-        /* ========================= */
-        /* BOTÕES DAS LINHAS */
-        /* ========================= */
-
+        /* ==========================================================================
+         BOTÕES SECUNDÁRIOS COM TRANSIÇÃO MORPHING DO ÍCONE E DO CHECKMARK
+         ========================================================================== */
         .botao-copiar-linha {
-
             position: absolute;
-
             right: -45px;
-
             top: 50%;
-
-            transform: translateY(-50%);
-
             width: 30px;
-
             height: 30px;
-
             border: none;
-
             border-radius: 50%;
-
             cursor: pointer;
-
-            background-color: #9a6341;
-
-            background-image:
-                url('imgs/copy-small.svg');
-
-            background-repeat: no-repeat;
-
-            background-position: center;
-
+            background: #9a6341 url('imgs/copy-small.svg') no-repeat center;
             background-size: 16px;
 
-            color: white;
+            /* Checkmark oculto por padrão para poder transicionar */
+            color: transparent;
+            font-size: 0px;
 
+            opacity: 0;
+            transform: translateY(-70%);
+            pointer-events: none;
+
+            /* Adicionado controle de tamanho do ícone, fonte e cor na transição */
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1),
+                opacity 0.2s ease,
+                background-size 0.2s ease,
+                font-size 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                color 0.2s ease;
+            backface-visibility: hidden;
+        }
+
+        .botao-copiar-linha.visivel {
+            opacity: 1;
+            transform: translateY(-50%);
+            pointer-events: auto;
+        }
+
+        .botao-copiar-linha.visivel:hover {
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        /* Estado Copiado: Encolhe o ícone e expande o checkmark */
+        .botao-copiar-linha.copiado {
+            background-size: 0px;
             font-size: 14px;
-
-            transition: 0.2s;
+            color: white;
         }
 
-        .botao-copiar-linha:hover {
+        /* BOTÃO DE COPIAR TUDO (MESTRE) */
+        .botao-copiar-tudo {
+            position: absolute;
+            right: -90px;
+            top: 50%;
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            background: #757828 url('imgs/copy-main.svg') no-repeat center;
+            background-size: 16px;
 
-            scale: 1.1;
+            /* Checkmark oculto por padrão para poder transicionar */
+            color: transparent;
+            font-size: 0px;
+
+            opacity: 0;
+            transform: translateY(-50%) translateX(-15px);
+            pointer-events: none;
+
+            /* Adicionado controle de tamanho do ícone, fonte e cor na transição */
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1),
+                opacity 0.2s ease,
+                background-size 0.2s ease,
+                font-size 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                color 0.2s ease;
+            backface-visibility: hidden;
         }
 
-
-
-        /* Cada linha precisa ser relativa */
-        tbody tr {
-
-            position: relative;
+        .botao-copiar-tudo.visivel {
+            opacity: 1;
+            transform: translateY(-50%) translateX(0);
+            pointer-events: auto;
         }
 
+        .botao-copiar-tudo.visivel:hover {
+            transform: translateY(-50%) translateX(0) scale(1.2);
+        }
+
+        /* Estado Copiado: Encolhe o ícone e expande o checkmark */
+        .botao-copiar-tudo.copiado {
+            background-size: 0px;
+            font-size: 14px;
+            color: white;
+        }
+
+        /* ==========================================================================
+       ESTILIZAÇÃO GERAL DA TABELA E TEXTOS
+       ========================================================================== */
         body {
             background-color: #f4f4f4;
-
             user-select: none;
-
             -webkit-user-select: none;
-
-            -ms-user-select: none;
         }
-
-
 
         table {
-
-
-
             border: solid 2px #444;
-
             border-collapse: collapse;
-
-            font-family: Poppins;
-
-            margin-top: 50px;
-
-            margin-bottom: 50px;
-
-            margin-left: auto;
-
-            margin-right: auto;
-
+            font-family: Poppins, sans-serif;
         }
 
-
-
         caption {
-
             text-decoration: underline;
-
             text-align: center;
-
-            font-family: Good Times;
-
+            font-family: 'Good Times', sans-serif;
             font-size: 20px;
-
             word-spacing: 30px;
-
             margin-bottom: 30px;
-
             color: #784728;
         }
 
-
-
-        thead tr {
-
+        thead tr,
+        tfoot {
             background-color: #9a6341;
-
             color: white;
-
-            border-bottom: solid 2px #444;
         }
 
-
+        thead tr {
+            border-bottom: solid 2px #444;
+        }
 
         th,
         td {
-
             padding: 10px;
-
             text-align: center;
-
             vertical-align: middle;
         }
 
-
-
         tbody td {
-
             border-bottom: solid 2px #444;
         }
 
-
-
         tfoot {
-
-            border-top: solid 2px #444;
-
-            background-color: #9a6341;
-
-            color: white;
-
             font-weight: bold;
         }
 
-        /* ========================= */
-        /* ELEMENTOS COPIÁVEIS */
-        /* ========================= */
-
         .copiavel {
-
             position: relative;
-
             cursor: pointer;
-
             transition: 0.2s;
-
-            user-select: none;
-
-            -webkit-user-select: none;
-
-            -ms-user-select: none;
         }
 
         .copiavel:hover {
-
             background-color: #cfcfcf;
         }
 
-
-
-        /* ========================= */
-        /* AVISO COPIADO */
-        /* ========================= */
-
+        /* ==========================================================================
+        ANIMAÇÃO POP-UP CLÁSSICA DO "COPIADO!"
+        ========================================================================== */
         .aviso-copiado {
-
             position: absolute;
-
             top: -30px;
-
             left: 50%;
-
             transform: translateX(-50%) scale(0);
-
             background-color: #333;
-
             color: white;
-
             padding: 4px 8px;
-
             border-radius: 5px;
-
             font-size: 12px;
-
             white-space: nowrap;
-
             pointer-events: none;
-
             opacity: 0;
-
             animation: aparecerDesaparecer 0.7s forwards;
         }
 
-
-
-        /* ========================= */
-        /* ANIMAÇÃO */
-        /* ========================= */
-
         @keyframes aparecerDesaparecer {
-
             0% {
-
                 opacity: 0;
-
-                transform:
-                    translateX(-50%) scale(0.5);
+                transform: translateX(-50%) scale(0.5);
             }
 
-            20% {
-
-                opacity: 1;
-
-                transform:
-                    translateX(-50%) scale(1);
-            }
-
+            20%,
             80% {
-
                 opacity: 1;
-
-                transform:
-                    translateX(-50%) scale(1);
+                transform: translateX(-50%) scale(1);
             }
 
             100% {
-
                 opacity: 0;
-
-                transform:
-                    translateX(-50%) scale(0.5);
+                transform: translateX(-50%) scale(0.5);
             }
-        }
-
-        /* ========================= */
-        /* ANIMAÇÕES BOTÕES LINHA */
-        /* ========================= */
-
-        .botao-copiar-linha {
-
-            opacity: 0;
-
-            animation: aparecerBotao 0.25s forwards;
-        }
-
-        .botao-removendo {
-
-            animation: removerBotao 0.25s forwards;
-        }
-
-        @keyframes aparecerBotao {
-
-            from {
-
-                opacity: 0;
-
-                transform:
-                    translateY(-70%);
-            }
-
-            to {
-
-                opacity: 1;
-
-                transform:
-                    translateY(-50%);
-            }
-        }
-
-        @keyframes removerBotao {
-
-            from {
-
-                opacity: 1;
-
-                transform:
-                    translateY(-50%);
-            }
-
-            to {
-
-                opacity: 0;
-
-                transform:
-                    translateY(-70%);
-            }
-        }
-
-        .botao-copiar-linha {
-
-            animation-fill-mode: forwards;
         }
     </style>
-
 </body>
 
 </html>
