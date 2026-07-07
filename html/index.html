@@ -21,52 +21,111 @@
         <a href wm-nav="exercicios/tabela.html">06 - Tabela</a> |
         <a href wm-nav="exercicios/form/form.html">07 - Formulário</a>|
         <a href wm-nav="exercicios/imagens.html">08 - Imagens</a>|
+        <a href wm-nav="exercicios/video.html">09 - videos</a>|
     </nav>
+
     <section id="conteudo"></section>
+
     <footer>
         <br>
         Curso de Web Moderno
     </footer>
+
     <script>
         document.querySelectorAll('[wm-nav]').forEach(link => {
             link.onclick = function (e) {
                 e.preventDefault()
                 const conteudo = document.getElementById('conteudo')
+                const url = link.getAttribute('wm-nav')
 
-                fetch(link.getAttribute('wm-nav'))
+                fetch(url)
                     .then(resp => resp.text())
                     .then(html => {
                         conteudo.innerHTML = html
+
+                        // Inicializa as funções dependendo da página que foi carregada
+                        // Lógica para Tabela
                         inicializarTabela()
+                        // Lógica para Lista Aninhada (wm-folder)
+                        inicializarArvore()
+                        // Lógica para o Carrossel (Se for a página de imagens)
+                        if (url.includes('imagens.html')) {
+                            inicializarSlider()
+                        }
                     })
             }
         })
 
+        // ==========================================
+        // FUNÇÃO PARA A LISTA ANINHADA (ÁRVORE)
+        // ==========================================
+        function inicializarArvore() {
+            const conteudo = document.getElementById('conteudo')
+            const folders = conteudo.querySelectorAll('[wm-folder]')
+
+            if (!folders.length) return
+
+            folders.forEach(folder => {
+                folder.onclick = function (e) {
+                    e.preventDefault()
+                    const ul = folder.nextElementSibling
+                    const currentDisplay = window.getComputedStyle(ul).display
+                    ul.style.display = currentDisplay === 'none' ? 'block' : 'none'
+                }
+            })
+        }
+
+        // ==========================================
+        // FUNÇÃO DO CARROSSEL (IMAGENS)
+        // ==========================================
+        function inicializarSlider() {
+            const conteudo = document.getElementById('conteudo');
+
+            let paragrafos = conteudo.querySelectorAll("div.a > p"); // filho direto
+
+            if (paragrafos.length === 0) return;
+
+            let indexAtual = 0;
+
+            paragrafos.forEach(p => p.classList.remove("active"));
+            paragrafos[indexAtual].classList.add("active");
+
+            const indicador = conteudo.querySelector("#indicador"); // ← busca o indicador
+
+            function atualizarIndicador() {
+                if (indicador) indicador.textContent = `Slide ${indexAtual + 1} de ${paragrafos.length}`;
+            }
+
+            atualizarIndicador(); // inicializa
+
+            function mudarSlide(direcao) {
+                paragrafos[indexAtual].classList.remove("active");
+                indexAtual = (indexAtual + direcao + paragrafos.length) % paragrafos.length;
+                paragrafos[indexAtual].classList.add("active");
+                atualizarIndicador(); // ← atualiza o indicador
+            }
+
+            let btnAnterior = conteudo.querySelector("#btn-anterior");
+            let btnProximo = conteudo.querySelector("#btn-proximo");
+
+            if (btnAnterior && btnProximo) {
+                btnAnterior.onclick = () => mudarSlide(-1);
+                btnProximo.onclick = () => mudarSlide(1);
+            }
+        }
+
+        // ==========================================
+        // FUNÇÃO DA TABELA (Seu código original)
+        // ==========================================
         function inicializarTabela() {
             const conteudo = document.getElementById('conteudo')
             const linhas = conteudo.querySelectorAll('tbody tr')
             if (!linhas.length) return
 
-            // ==========================================================
-            // NOVA MECÂNICA: MOSTRAR/ESCONDER TABELA AO CLICAR EM HARDWARE
-            // ==========================================================
-            const tabela = conteudo.querySelector('table')
-            const caption = tabela ? tabela.querySelector('caption') : null
-            if (tabela && caption) {
-                tabela.classList.add('escondida') // Começa escondida por padrão
-                caption.addEventListener('click', () => {
-                    tabela.classList.toggle('escondida') // Alterna entre mostrar e esconder
-                })
-            }
-            // ==========================================================
-
-            // =========================
-            // CALCULAR TOTAIS
-            // =========================
             let somaTotal = 0
 
             linhas.forEach((linha) => {
-                let precoTexto = inlinePreco = linha.querySelector('.preco').textContent
+                let precoTexto = linha.querySelector('.preco').textContent
                 precoTexto = precoTexto
                     .replace(/R\$\s*/g, '')
                     .replace(/\./g, '')
@@ -87,12 +146,11 @@
                 somaTotal += total
             })
 
-            conteudo.querySelector('#totalFinal').textContent =
-                somaTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+            const totalFinalEl = conteudo.querySelector('#totalFinal');
+            if (totalFinalEl) {
+                totalFinalEl.textContent = somaTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+            }
 
-            // =========================
-            // COPIAR TEXTO CÉLULA (Animação Clássica)
-            // =========================
             conteudo.querySelectorAll('.copiavel').forEach(celula => {
                 celula.addEventListener('click', () => {
                     const texto = celula.firstChild?.nodeValue?.trim() ?? celula.textContent.trim()
@@ -110,74 +168,74 @@
                 })
             })
 
-            // =========================
-            // COPIAR LINHAS INTEIRAS (MECÂNICA ANTIFALHAS)
-            // =========================
             const botaoToggle = conteudo.querySelector('#toggleCopiarLinhas')
             if (!botaoToggle) return
 
             let modoCopiarLinhas = false
 
-            // 1. Botão Mestre "Copiar Tudo"
             let botaoTudo = conteudo.querySelector('.botao-copiar-tudo')
             if (!botaoTudo) {
-                botaoTudo = document.createElement('button')
-                botaoTudo.classList.add('botao-copiar-tudo')
+                const thBotao = conteudo.querySelector('.th-botao');
+                if (thBotao) {
+                    botaoTudo = document.createElement('button')
+                    botaoTudo.classList.add('botao-copiar-tudo')
 
-                botaoTudo.addEventListener('click', () => {
-                    let textoFinal = ''
-                    linhas.forEach(l => {
-                        const prod = l.children[0].textContent.trim()
-                        const prc = l.children[1].textContent.trim()
-                        const qtd = l.children[2].textContent.trim()
-                        const ttl = l.children[3].textContent.trim()
-                        textoFinal += `Produto: ${prod}\nPreço: ${prc}\nQuantidade: ${qtd}\nTotal: ${ttl}\n\n`
-                    })
-                    textoFinal += `Total Final: ${conteudo.querySelector('#totalFinal').textContent.trim()}`
-                    navigator.clipboard.writeText(textoFinal)
+                    botaoTudo.addEventListener('click', () => {
+                        let textoFinal = ''
+                        linhas.forEach(l => {
+                            const prod = l.children[0].textContent.trim()
+                            const prc = l.children[1].textContent.trim()
+                            const qtd = l.children[2].textContent.trim()
+                            const ttl = l.children[3].textContent.trim()
+                            textoFinal += `Produto: ${prod}\nPreço: ${prc}\nQuantidade: ${qtd}\nTotal: ${ttl}\n\n`
+                        })
+                        textoFinal += `Total Final: ${conteudo.querySelector('#totalFinal').textContent.trim()}`
+                        navigator.clipboard.writeText(textoFinal)
 
-                    botaoTudo.innerHTML = '✔'
-                    botaoTudo.classList.add('copiado')
-
-                    setTimeout(() => {
-                        botaoTudo.innerHTML = ''
-                        botaoTudo.classList.remove('copiado')
-                    }, 700)
-                })
-                conteudo.querySelector('.th-botao').appendChild(botaoTudo)
-            }
-
-            // 2. Botões Laterais das Linhas
-            linhas.forEach((linha, index) => {
-                let botao = inlineBotao = linha.querySelector('.botao-copiar-linha')
-                if (!botao) {
-                    botao = document.createElement('button')
-                    botao.classList.add('botao-copiar-linha')
-
-                    botao.addEventListener('click', () => {
-                        const produto = linha.children[0].textContent.trim()
-                        const preco = linha.children[1].textContent.trim()
-                        const quantidade = inlineQtd = linha.children[2].textContent.trim()
-                        const total = inlineBotao = linha.children[3].textContent.trim() // corrigido leve deslize de variável sua
-                        const texto = `Produto: ${produto}\nPreço: ${preco}\nQuantidade: ${quantidade}\nTotal: ${total}`
-
-                        navigator.clipboard.writeText(texto)
-                        botao.innerHTML = '✔'
-                        botao.classList.add('copiado')
+                        botaoTudo.innerHTML = '✔'
+                        botaoTudo.classList.add('copiado')
 
                         setTimeout(() => {
-                            botao.innerHTML = ''
-                            botao.classList.remove('copiado')
+                            botaoTudo.innerHTML = ''
+                            botaoTudo.classList.remove('copiado')
                         }, 700)
                     })
+                    thBotao.appendChild(botaoTudo)
+                }
+            }
 
-                    linha.querySelector('.td-botao').appendChild(botao)
+            linhas.forEach((linha) => {
+                let botao = linha.querySelector('.botao-copiar-linha')
+                if (!botao) {
+                    const tdBotao = linha.querySelector('.td-botao');
+                    if (tdBotao) {
+                        botao = document.createElement('button')
+                        botao.classList.add('botao-copiar-linha')
+
+                        botao.addEventListener('click', () => {
+                            const produto = linha.children[0].textContent.trim()
+                            const preco = linha.children[1].textContent.trim()
+                            const quantidade = linha.children[2].textContent.trim()
+                            const total = linha.children[3].textContent.trim()
+                            const texto = `Produto: ${produto}\nPreço: ${preco}\nQuantidade: ${quantidade}\nTotal: ${total}`
+
+                            navigator.clipboard.writeText(texto)
+                            botao.innerHTML = '✔'
+                            botao.classList.add('copiado')
+
+                            setTimeout(() => {
+                                botao.innerHTML = ''
+                                botao.classList.remove('copiado')
+                            }, 700)
+                        })
+                        tdBotao.appendChild(botao)
+                    }
                 }
             })
 
-            // 3. Evento União Toggle Alternando Estados
             botaoToggle.addEventListener('click', () => {
                 modoCopiarLinhas = !modoCopiarLinhas
+                if (!botaoTudo) return;
 
                 if (modoCopiarLinhas) {
                     botaoTudo.style.transitionDelay = '0s'

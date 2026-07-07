@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="slider">
+        <div class="slides">
+            <img class="slide" src="cq5dam.web.1280.1280.jpeg" alt="Milky Way" height="500">
+            <img class="slide" src="m31.jpg" alt="Andromeda" height="500">
+            <img class="slide" src="blackhole.jpg" alt="Messier 31" height="500">
+        </div>
+        <button class="prev" onclick="prevSlide()">&#10094</button>
+        <button class="next" onclick="nextSlide()">&#10095</button>
+    </div>
+
+</body>
+
+<script>
+    const slides = document.querySelectorAll(".slides img")
+    let slideIndex = 0;
+    let intervalId = null;
+
+    // initializeSlider();
+    document.addEventListener("DOMContentLoaded", initializeSlider)
+
+    function initializeSlider() {
+        if (slides.length > 0) {
+            slides[slideIndex].classList.add("displaySlide")
+        }
+    }
+    function showSlide(index) {
+
+        if (index >= slides.length) {
+            slideIndex = 0;
+        } else if (index < 0) {
+            slideIndex = slides.length - 1
+        }
+        slides.forEach(slide => {
+            slide.classList.remove("displaySlide")
+        })
+        slides[slideIndex].classList.add("displaySlide")
+    }
+    function prevSlide() {
+        slideIndex--;
+        showSlide(slideIndex)
+
+    }
+    function nextSlide() {
+        slideIndex++;
+        showSlide(slideIndex);
+    }
+
+</script>
+
+<style>
+    body {
+        margin-top: 200px;
+    }
+
+    .slider {
+        position: relative;
+        width: 100%;
+        margin: auto;
+        overflow: hidden;
+    }
+
+    .slider img {
+        margin: auto;
+        width: 40%;
+        display: none
+    }
+
+    img.displaySlide {
+        display: block
+    }
+
+    .slider button {
+
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 2rem;
+        padding: 10px 10px;
+        background-color: rgb(56, 48, 48);
+        color: wheat;
+        cursor: pointer;
+    }
+
+    .previus {
+        left: 0;
+    }
+
+    .next {
+        right: 0;
+    }
+
+    @keyframes fade {
+        from {
+            margin-left: 0px;
+            margin-top: 0px;
+        }
+    }
+</style>
+
+</html>

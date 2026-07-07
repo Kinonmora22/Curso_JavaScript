@@ -1,0 +1,56 @@
+<p>Banana</p>
+<p>Maçã</p>
+<p>Uva</p>
+
+<button id="anterior">Anterior</button>
+<button id="proximo">Próximo</button>
+
+<div id="contador"></div>
+
+<script>
+    let frases = document.querySelectorAll("p")
+    let indexAtual = 0
+    let contador = document.querySelectorAll("contador")
+
+    const atualizarContador = () => {
+        contador.textContent = `Item ${indexAtual} de ${frases.length} itens.`
+    }
+
+    atualizarContador()
+
+    function mudarSlide(direcao) {
+        frases[indexAtual].classList.remove("active");
+
+        indexAtual =
+            (indexAtual + direcao + frases.length) % frases.length;
+
+        frases[indexAtual].classList.add("active");
+
+        atualizarContador();
+    }
+
+    let btnAnterior =
+        document.getElementById("anterior");
+
+    let btnProximo =
+        document.getElementById("proximo");
+
+    btnAnterior.onclick = function () {
+        mudarSlide(-1);
+    }
+
+    btnProximo.onclick = function () {
+        mudarSlide(1);
+    }
+
+</script>
+
+<style>
+    p {
+        display: none
+    }
+
+    .active {
+        display: block
+    }
+</style>

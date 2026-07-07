@@ -1,5 +1,3 @@
-<!-- Lista Aninhada (Oh negócio feio viu)-->
-
 <!-- CSS para esconder as listas filhas por padrão e colocar a mãozinha no cursor -->
 <style>
     /* Esconde todas as listas que estão dentro de outra lista */
@@ -56,12 +54,10 @@
     document.querySelectorAll('[wm-folder]').forEach(folder => {
         folder.onclick = function (e) {
             e.preventDefault()
+            console.log("Clicou na pasta:", folder.textContent) // <--- ADICIONE ISSO
+
             const ul = folder.nextElementSibling
-
-            // Pega o estilo real renderizado na tela (computado) caso o inline esteja vazio
             const currentDisplay = window.getComputedStyle(ul).display
-
-            // Alterna baseado no estado atual real
             ul.style.display = currentDisplay === 'none' ? 'block' : 'none'
         }
     })

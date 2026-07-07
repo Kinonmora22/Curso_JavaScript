@@ -1,351 +1,666 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 
+
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Tabela</title>
+
 </head>
 
+
+
 <body>
+
     <br>
+
     <div class="container-tabela">
+
         <table>
+
             <caption>HARDWARE</caption>
+
             <thead>
+
                 <tr>
+
                     <th>Produto</th>
+
                     <th>Preço</th>
+
                     <th>Quantidade</th>
+
                     <th>Total</th>
+
                     <th class="th-botao">
+
                         <button id="toggleCopiarLinhas"></button>
+
                     </th>
+
                 </tr>
+
             </thead>
 
+
+
             <tbody>
+
                 <tr>
+
                     <td class="copiavel">B550M K MicroATX</td>
+
                     <td class="preco copiavel">R$ 630,00</td>
+
                     <td class="quantidade copiavel">1</td>
+
                     <td class="total copiavel"></td>
+
                     <td class="td-botao"></td>
+
                 </tr>
+
                 <tr>
+
                     <td class="copiavel">SSD 2TB NVME SANDISK</td>
+
                     <td class="preco copiavel">R$ 1360,00</td>
+
                     <td class="quantidade copiavel">1</td>
+
                     <td class="total copiavel"></td>
+
                     <td class="td-botao"></td>
+
                 </tr>
+
                 <tr>
+
                     <td class="copiavel">DDR4-3200 8GB Kingston</td>
+
                     <td class="preco copiavel">R$ 300,00</td>
+
                     <td class="quantidade copiavel">2</td>
+
                     <td class="total copiavel"></td>
+
                     <td class="td-botao"></td>
+
                 </tr>
+
                 <tr>
+
                     <td class="copiavel">Gabinete Mid Tower</td>
+
                     <td class="preco copiavel">R$ 240,00</td>
-                    <td class="quantidade copiavel">1</td>
+
+                    <td class="quantidade copiavel">0</td>
+
                     <td class="total copiavel"></td>
+
                     <td class="td-botao"></td>
+
                 </tr>
+
                 <tr>
+
                     <td class="copiavel">MSI MAG A650BN</td>
+
                     <td class="preco copiavel">R$ 300,00</td>
+
                     <td class="quantidade copiavel">1</td>
+
                     <td class="total copiavel"></td>
+
                     <td class="td-botao"></td>
+
                 </tr>
+
                 <tr>
+
                     <td class="copiavel">RTX 5070</td>
+
                     <td class="preco copiavel">R$ 3986,00</td>
+
                     <td class="quantidade copiavel">1</td>
+
                     <td class="total copiavel"></td>
+
                     <td class="td-botao"></td>
+
                 </tr>
+
+
                 <tr>
+
                     <td class="copiavel">Ryzen 7 5700X</td>
+
                     <td class="preco copiavel">R$ 1103,00</td>
+
                     <td class="quantidade copiavel">1</td>
+
                     <td class="total copiavel"></td>
+
                     <td class="td-botao"></td>
+
                 </tr>
+
                 <tr>
+
                     <td class="copiavel">Deepcool AK400</td>
+
                     <td class="preco copiavel">R$ 170,00</td>
+
                     <td class="quantidade copiavel">1</td>
+
                     <td class="total copiavel"></td>
+
                     <td class="td-botao"></td>
+
                 </tr>
+
             </tbody>
 
+
+
             <tfoot>
+
                 <tr>
+
                     <td>Total Final</td>
+
                     <td></td>
+
                     <td></td>
+
                     <td id="totalFinal" class="copiavel"></td>
+
                     <td class="td-botao"></td>
+
                 </tr>
+
             </tfoot>
+
         </table>
+
     </div>
+
+
 
     <style>
         .container-tabela {
+
             position: relative;
+
             width: fit-content;
+
             margin: 50px auto;
+
         }
+
+
 
         .th-botao,
+
         .td-botao {
+
             min-width: 0;
+
             max-width: 0;
+
             width: 0;
+
             padding: 0;
+
             border: none;
+
             background: transparent;
+
             position: relative;
+
         }
+
+
 
         /* ==========================================================================
-        ESTILO ADICIONADO: RECOLARE E EXIBIR CONTEÚDO
-        ========================================================================== */
-        table.escondida thead,
-        table.escondida tbody,
-        table.escondida tfoot {
-            display: none;
-        }
 
-        caption {
-            position: relative;
-            cursor: pointer;
-            /* Transforma o mouse em mãozinha ao passar em HARDWARE */
-        }
-
-        /* ========================================================================== */
-
-        /* ==========================================================================
         BOTÃO PRINCIPAL (TOGGLE)
+
         ========================================================================== */
+
         #toggleCopiarLinhas {
+
             position: absolute;
+
             right: -45px;
+
             top: 50%;
+
             transform: translateY(-50%);
+
             width: 30px;
+
             height: 30px;
+
             border: none;
+
             border-radius: 50%;
+
             cursor: pointer;
+
             background: #784728 url('imgs/copy-main.svg') no-repeat center;
+
             background-size: 16px;
+
             transition: 0.2s;
+
             backface-visibility: hidden;
+
         }
+
+
 
         #toggleCopiarLinhas:hover {
+
             transform: translateY(-50%) scale(1.2);
+
         }
+
+
 
         /* ==========================================================================
+
          BOTÕES SECUNDÁRIOS COM TRANSIÇÃO MORPHING DO ÍCONE E DO CHECKMARK
+
          ========================================================================== */
+
         .botao-copiar-linha {
+
             position: absolute;
+
             right: -45px;
+
             top: 50%;
+
             width: 30px;
+
             height: 30px;
+
             border: none;
+
             border-radius: 50%;
+
             cursor: pointer;
+
             background: #9a6341 url('imgs/copy-small.svg') no-repeat center;
+
             background-size: 16px;
 
+
+
             /* Checkmark oculto por padrão para poder transicionar */
+
             color: transparent;
+
             font-size: 0px;
 
+
+
             opacity: 0;
+
             transform: translateY(-70%);
+
             pointer-events: none;
 
+
+
             /* Adicionado controle de tamanho do ícone, fonte e cor na transição */
+
             transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1),
+
                 opacity 0.2s ease,
+
                 background-size 0.2s ease,
+
                 font-size 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+
                 color 0.2s ease;
+
             backface-visibility: hidden;
+
         }
+
+
 
         .botao-copiar-linha.visivel {
+
             opacity: 1;
+
             transform: translateY(-50%);
+
             pointer-events: auto;
+
         }
+
+
 
         .botao-copiar-linha.visivel:hover {
+
             transform: translateY(-50%) scale(1.2);
+
         }
 
+
+
         /* Estado Copiado: Encolhe o ícone e expande o checkmark */
+
         .botao-copiar-linha.copiado {
+
             background-size: 0px;
+
             font-size: 14px;
+
             color: white;
+
         }
+
+
 
         /* BOTÃO DE COPIAR TUDO (MESTRE) */
+
         .botao-copiar-tudo {
+
             position: absolute;
+
             right: -90px;
+
             top: 50%;
+
             width: 30px;
+
             height: 30px;
+
             border: none;
+
             border-radius: 50%;
+
             cursor: pointer;
+
             background: #757828 url('imgs/copy-main.svg') no-repeat center;
+
             background-size: 16px;
 
+
+
             /* Checkmark oculto por padrão para poder transicionar */
+
             color: transparent;
+
             font-size: 0px;
 
+
+
             opacity: 0;
+
             transform: translateY(-50%) translateX(-15px);
+
             pointer-events: none;
+
+
 
             /* Adicionado controle de tamanho do ícone, fonte e cor na transição */
+
             transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1),
+
                 opacity 0.2s ease,
+
                 background-size 0.2s ease,
+
                 font-size 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+
                 color 0.2s ease;
+
             backface-visibility: hidden;
+
         }
+
+
 
         .botao-copiar-tudo.visivel {
+
             opacity: 1;
+
             transform: translateY(-50%) translateX(0);
+
             pointer-events: auto;
+
         }
+
+
 
         .botao-copiar-tudo.visivel:hover {
+
             transform: translateY(-50%) translateX(0) scale(1.2);
+
         }
+
+
 
         /* Estado Copiado: Encolhe o ícone e expande o checkmark */
+
         .botao-copiar-tudo.copiado {
+
             background-size: 0px;
+
             font-size: 14px;
+
             color: white;
+
         }
 
+
+
         /* ==========================================================================
+
        ESTILIZAÇÃO GERAL DA TABELA E TEXTOS
+
        ========================================================================== */
+
         body {
-            background-color: #f4f4f4;
+
+            background-color: #ffffff;
+
             user-select: none;
+
             -webkit-user-select: none;
+
         }
+
+
 
         table {
+
             border: solid 2px #444;
+
             border-collapse: collapse;
+
             font-family: Poppins, sans-serif;
+
         }
+
+
 
         caption {
+
             text-decoration: underline;
+
             text-align: center;
+
             font-family: 'Good Times', sans-serif;
+
             font-size: 20px;
+
             word-spacing: 30px;
+
             margin-bottom: 30px;
+
             color: #784728;
+
         }
+
+
 
         thead tr,
+
         tfoot {
+
             background-color: #9a6341;
+
             color: white;
+
         }
+
+
 
         thead tr {
+
             border-bottom: solid 2px #444;
+
         }
+
+
 
         th,
+
         td {
+
             padding: 10px;
+
             text-align: center;
+
             vertical-align: middle;
+
         }
+
+
 
         tbody td {
+
             border-bottom: solid 2px #444;
+
         }
+
+
 
         tfoot {
+
             font-weight: bold;
+
         }
+
+
 
         .copiavel {
+
             position: relative;
+
             cursor: pointer;
+
             transition: 0.2s;
+
         }
+
+
 
         .copiavel:hover {
+
             background-color: #cfcfcf;
+
         }
+
+
 
         /* ==========================================================================
+
         ANIMAÇÃO POP-UP CLÁSSICA DO "COPIADO!"
+
         ========================================================================== */
+
         .aviso-copiado {
+
             position: absolute;
+
             top: -30px;
+
             left: 50%;
+
             transform: translateX(-50%) scale(0);
+
             background-color: #333;
+
             color: white;
+
             padding: 4px 8px;
+
             border-radius: 5px;
+
             font-size: 12px;
+
             white-space: nowrap;
+
             pointer-events: none;
+
             opacity: 0;
+
             animation: aparecerDesaparecer 0.7s forwards;
+
         }
+
+
 
         @keyframes aparecerDesaparecer {
+
             0% {
+
                 opacity: 0;
+
                 transform: translateX(-50%) scale(0.5);
+
             }
+
+
 
             20%,
+
             80% {
+
                 opacity: 1;
+
                 transform: translateX(-50%) scale(1);
+
             }
 
+
+
             100% {
+
                 opacity: 0;
+
                 transform: translateX(-50%) scale(0.5);
+
             }
+
         }
     </style>
+
 </body>
+
+
 
 </html>
