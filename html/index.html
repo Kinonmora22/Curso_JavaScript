@@ -21,7 +21,8 @@
         <a href wm-nav="exercicios/tabela.html">06 - Tabela</a> |
         <a href wm-nav="exercicios/form/form.html">07 - Formulário</a>|
         <a href wm-nav="exercicios/imagens.html">08 - Imagens</a>|
-        <a href wm-nav="exercicios/video.html">09 - videos</a>|
+        <a href wm-nav="exercicios/video.html">09 - Vídeos</a>|
+        <a href wm-nav="exercicios/slider.html">10 - Slider</a>|
     </nav>
 
     <section id="conteudo"></section>
@@ -32,6 +33,7 @@
     </footer>
 
     <script>
+
         document.querySelectorAll('[wm-nav]').forEach(link => {
             link.onclick = function (e) {
                 e.preventDefault()
@@ -48,9 +50,13 @@
                         inicializarTabela()
                         // Lógica para Lista Aninhada (wm-folder)
                         inicializarArvore()
-                        // Lógica para o Carrossel (Se for a página de imagens)
+                        // Lógica para o Carrossel manual (Se for a página de imagens)
                         if (url.includes('imagens.html')) {
                             inicializarSlider()
+                        }
+                        // Lógica para o Slider automático (a nossa animação com mover/exibirSlide)
+                        if (url.includes('slider.html')) {
+                            inicializarSliderAuto()
                         }
                     })
             }
@@ -76,7 +82,7 @@
         }
 
         // ==========================================
-        // FUNÇÃO DO CARROSSEL (IMAGENS)
+        // FUNÇÃO DO CARROSSEL MANUAL (IMAGENS - com botões)
         // ==========================================
         function inicializarSlider() {
             const conteudo = document.getElementById('conteudo');
@@ -112,6 +118,49 @@
                 btnAnterior.onclick = () => mudarSlide(-1);
                 btnProximo.onclick = () => mudarSlide(1);
             }
+        }
+
+        // ==========================================
+        // FUNÇÃO DO SLIDER AUTOMÁTICO (mover / exibirSlide)
+        // ==========================================
+        function inicializarSliderAuto() {
+            const conteudo = document.getElementById('conteudo')
+            const container = conteudo.querySelector('[wm-slider]')
+
+            if (!container) return
+
+            const elementos = container.querySelectorAll(':scope > p')
+            const slides = Array.from(elementos)
+
+            if (!slides.length) return
+
+            function mover(elem, inicio, fim, passo, callback) {
+                const novoInicio = inicio - passo
+                if (novoInicio >= fim) {
+                    elem.style.left = novoInicio + 'px'
+                    setTimeout(() => mover(elem, novoInicio, fim, passo, callback), 7)
+                } else {
+                    callback()
+                }
+            }
+
+            function exibirSlide(slide) {
+                slide.style.display = 'block'
+                const inicio = container.clientWidth
+                const fim = -slide.clientWidth
+                slide.style.left = `${inicio}px`
+                mover(slide, inicio, fim, 5, () => {
+                    slide.style.display = 'none'
+                    exibirSlide(getProximo(slide))
+                })
+            }
+
+            function getProximo(atual) {
+                const i = slides.indexOf(atual) + 1
+                return i < slides.length ? slides[i] : slides[0]
+            }
+
+            exibirSlide(slides[0])
         }
 
         // ==========================================
