@@ -213,7 +213,7 @@
                 // Atualiza a barra de progresso
                 if (progressoDiv) {
                     progressoDiv.style.width = `${percentual}%`
-                    progressoDiv.textContent = `${Math.floor(percentual)}%`
+                    progressoDiv.innerHTML = `<span>${Math.floor(percentual)}%</span>`
                 }
 
                 // Atualiza a posição do personagem ao longo da barra

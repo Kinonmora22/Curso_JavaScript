@@ -1,58 +1,92 @@
-<!-- Repare que removemos <html>, <head> e <body> -->
-<br>
-<video id="meuVideo" width="960" height="540" controls controlsList="nodownload">
-    <source
-        src="videos/The Most Beautifully Animated Magic Spell You'll Ever See  Witch Hat Atelier - Crunchyroll (1080p, h264).mp4"
-        type="video/mp4">
-    Seu browser não suporta o tipo de arquivo MP4.
-</video>
+<body>
+    <br>
+    <video id="meuVideo" width="960" height="540" controls controlsList="nodownload">
+        <source
+            src="videos/The Most Beautifully Animated Magic Spell You'll Ever See  Witch Hat Atelier - Crunchyroll (1080p, h264).mp4"
+            type="video/mp4">
+        Seu browser não suporta o tipo de arquivo MP4.
+    </video>
 
-<div wm-progresso="meuVideo" class="progresso">
-    <img id="personagem" src="videos/parado.png" alt="Personagem">
-    <div></div>
-</div>
+    <div wm-progresso="meuVideo" class="progresso">
+        <img id="personagem" src="videos/parado.png" alt="Personagem">
+        <div class="barra-vermelha"></div>
+    </div>
 
-<div>
-    <button wm-play="meuVideo">Play</button>
-    <button wm-pause="meuVideo">Pause</button>
-</div>
-
+    <div>
+        <button wm-play="meuVideo">Play</button>
+        <button wm-pause="meuVideo">Pause</button>
+    </div>
+</body>
 <style>
+    body {
+        background-image: url('https://i.pinimg.com/vwebp/736x/53/5a/a4/535aa4582ee059587423cb585dea9db8.webp');
+        background-size: cover;
+        /* Faz a imagem cobrir a tela toda sem distorcer */
+        background-position: center;
+        /* Centraliza o GIF */
+        background-repeat: no-repeat;
+        /* Evita que o GIF se repita em telas grandes */
+        background-attachment: fixed;
+        /* Deixa o fundo fixo caso a página role */
+    }
+
+    video {
+        border: solid 6px #300000
+    }
+
     .progresso {
         height: 20px;
-        width: 500px;
+        width: 912px;
         border-radius: 10px;
-        border: solid 1px #444;
+        border: solid 3px #300000;
         margin-top: 50px;
         margin-left: auto;
         margin-right: auto;
         position: relative;
+        background-image: url('videos/fundo.jpg');
     }
 
+    /* BARRA VERMELHA */
     .progresso>div {
-        border-radius: 10px;
-        background-color: red;
-        margin-right: 5px;
-        background-image: url('https://cdn.creativefabrica.com/2020/03/14/City-vector-background-Graphics-3646051-1.jpg');
+        border-color: rgb(146, 17, 17);
+        border-radius: 7px 0px 7px 7px;
+        background-color: rgb(146, 17, 17);
+        font-family: poppins;
         color: white;
         height: 100%;
         display: flex;
-        justify-content: right;
-        /* Centers horizontally */
+        justify-content: flex-end;
+        /* Alinha o conteúdo à direita */
         align-items: center;
         font-size: 12px;
         width: 0%;
+
+        overflow: hidden;
+        /* Oculta o texto quando a barra estiver muito pequena/zerada */
+        position: relative;
+        z-index: 1;
     }
 
+    /* RECUO DO TEXTO DA PORCENTAGEM */
+    .progresso>div>span {
+        margin-right: 15px;
+        /* Empurra o texto para trás do cavaleiro */
+        white-space: nowrap;
+        /* Impede o texto de quebrar linha */
+    }
+
+    /* PERSONAGEM */
     #personagem {
-        position: relative;
-        bottom: 100%;
+        position: absolute;
+        bottom: 0;
+        /* Trava o pé do personagem no fundo da barra */
         left: 0%;
         height: 40px;
+        /* Pode ajustar a altura à vontade */
         transform: translateX(-50%);
+        /* Centraliza o personagem apenas no eixo X */
         pointer-events: none;
         z-index: 10;
-        /* Adicionado z-index */
         display: block;
     }
 
