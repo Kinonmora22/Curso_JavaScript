@@ -209,6 +209,11 @@
 
 
     <style>
+        .gif-fundo {
+            position: absolute;
+            size: 100%
+        }
+
         .container-tabela {
 
             position: relative;
@@ -488,18 +493,25 @@
        ========================================================================== */
 
         body {
-
-            background-color: #ffffff;
+            background-image: url('https://media1.tenor.com/m/P08cX6lTImAAAAAC/paper-crumbled-paper.gif');
+            background-size: cover;
+            /* Faz a imagem cobrir a tela toda sem distorcer */
+            background-position: center;
+            /* Centraliza o GIF */
+            background-repeat: no-repeat;
+            /* Evita que o GIF se repita em telas grandes */
+            background-attachment: fixed;
+            /* Deixa o fundo fixo caso a página role */
 
             user-select: none;
-
             -webkit-user-select: none;
-
         }
 
 
 
         table {
+
+            background-color: #ececec;
 
             border: solid 2px #444;
 

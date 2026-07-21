@@ -1,0 +1,65 @@
+<!-- Repare que removemos <html>, <head> e <body> -->
+<br>
+<video id="meuVideo" width="960" height="540" controls controlsList="nodownload">
+    <source
+        src="videos/The Most Beautifully Animated Magic Spell You'll Ever See  Witch Hat Atelier - Crunchyroll (1080p, h264).mp4"
+        type="video/mp4">
+    Seu browser não suporta o tipo de arquivo MP4.
+</video>
+
+<div wm-progresso="meuVideo" class="progresso">
+    <img id="personagem" src="videos/parado.png" alt="Personagem">
+    <div></div>
+</div>
+
+<div>
+    <button wm-play="meuVideo">Play</button>
+    <button wm-pause="meuVideo">Pause</button>
+</div>
+
+<style>
+    .progresso {
+        height: 20px;
+        width: 500px;
+        border-radius: 10px;
+        border: solid 1px #444;
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+    }
+
+    .progresso>div {
+        border-radius: 10px;
+        background-color: red;
+        margin-right: 5px;
+        background-image: url('https://cdn.creativefabrica.com/2020/03/14/City-vector-background-Graphics-3646051-1.jpg');
+        color: white;
+        height: 100%;
+        display: flex;
+        justify-content: right;
+        /* Centers horizontally */
+        align-items: center;
+        font-size: 12px;
+        width: 0%;
+    }
+
+    #personagem {
+        position: relative;
+        bottom: 100%;
+        left: 0%;
+        height: 40px;
+        transform: translateX(-50%);
+        pointer-events: none;
+        z-index: 10;
+        /* Adicionado z-index */
+        display: block;
+    }
+
+    #meuVideo {
+        margin-top: 20px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>

@@ -58,6 +58,9 @@
                         if (url.includes('slider.html')) {
                             inicializarSliderAuto()
                         }
+                        if (url.includes('video.html')) {
+                            inicializarVideo()
+                        }
                     })
             }
         })
@@ -162,7 +165,63 @@
 
             exibirSlide(slides[0])
         }
+        // ==========================================
+        // FUNÇÃO PARA O VÍDEO (com mecânica do personagem)
+        // ==========================================
+        function inicializarVideo() {
+            const conteudo = document.getElementById('conteudo')
+            const video = conteudo.querySelector('#meuVideo')
+            const personagem = conteudo.querySelector('#personagem')
 
+            if (!video) return
+
+            // Desativa o menu de contexto
+            video.oncontextmenu = () => false
+
+            // Botões de Play e Pause
+            const btnPlay = conteudo.querySelector('[wm-play]')
+            if (btnPlay) {
+                btnPlay.onclick = () => video.play()
+            }
+
+            const btnPause = conteudo.querySelector('[wm-pause]')
+            if (btnPause) {
+                btnPause.onclick = () => video.pause()
+            }
+
+            // --- TROCA DE ANIMAÇÃO DO PERSONAGEM ---
+            video.onplay = () => {
+                if (personagem) personagem.src = 'videos/andando.gif'
+            }
+
+            video.onpause = () => {
+                if (personagem) personagem.src = 'videos/parado.png'
+            }
+
+            video.onended = () => {
+                if (personagem) personagem.src = 'videos/parado.png'
+            }
+
+            // --- MOVIMENTAÇÃO DA BARRA E DO PERSONAGEM ---
+            const progressoDiv = conteudo.querySelector('[wm-progresso] > div')
+
+            video.ontimeupdate = () => {
+                if (!video.duration) return
+
+                const percentual = (video.currentTime / video.duration) * 100
+
+                // Atualiza a barra de progresso
+                if (progressoDiv) {
+                    progressoDiv.style.width = `${percentual}%`
+                    progressoDiv.textContent = `${Math.floor(percentual)}%`
+                }
+
+                // Atualiza a posição do personagem ao longo da barra
+                if (personagem) {
+                    personagem.style.left = `${percentual}%`
+                }
+            }
+        }
         // ==========================================
         // FUNÇÃO DA TABELA (Seu código original)
         // ==========================================
