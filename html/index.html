@@ -173,34 +173,329 @@
             const video = conteudo.querySelector('#meuVideo')
             const personagem = conteudo.querySelector('#personagem')
 
+
+            const indicadorPlayPause = conteudo.querySelector('#indicadorPlayPause')
+
+            let timerIndicador
+
+
+            function mostrarIndicador(icone) {
+
+                if (!indicadorPlayPause) return
+
+                // Define o ícone
+                indicadorPlayPause.textContent = icone
+
+                // Cancela animações anteriores
+                clearTimeout(timerIndicador)
+
+                indicadorPlayPause.classList.remove('sumir')
+
+                // Força o navegador a reiniciar a animação
+                indicadorPlayPause.classList.remove('mostrar')
+                void indicadorPlayPause.offsetWidth
+
+                // Faz aparecer
+                indicadorPlayPause.classList.add('mostrar')
+
+                // Depois de um pequeno tempo, começa a desaparecer
+                timerIndicador = setTimeout(() => {
+
+                    indicadorPlayPause.classList.remove('mostrar')
+                    indicadorPlayPause.classList.add('sumir')
+
+                }, 450)
+
+                // Limpa a classe depois da animação
+                setTimeout(() => {
+
+                    indicadorPlayPause.classList.remove('sumir')
+
+                }, 750)
+            }
+
+
             if (!video) return
 
             // Desativa o menu de contexto
             video.oncontextmenu = () => false
 
-            // Botões de Play e Pause
+            // Botão Play / Pause
             const btnPlay = conteudo.querySelector('[wm-play]')
+
+
             if (btnPlay) {
-                btnPlay.onclick = () => video.play()
+                btnPlay.onclick = () => {
+
+                    if (video.paused) {
+
+                        video.play()
+                        mostrarIndicador('▶')
+
+                    } else {
+
+                        video.pause()
+                        mostrarIndicador('❚❚')
+
+                    }
+
+                }
             }
 
-            const btnPause = conteudo.querySelector('[wm-pause]')
-            if (btnPause) {
-                btnPause.onclick = () => video.pause()
+
+            // Clique no vídeo = Play / Pause
+
+            video.onclick = () => {
+
+                if (video.paused) {
+
+                    video.play()
+                    mostrarIndicador('▶')
+
+                } else {
+
+                    video.pause()
+                    mostrarIndicador('❚❚')
+
+                }
+
             }
 
-            // --- TROCA DE ANIMAÇÃO DO PERSONAGEM ---
+
+            // ==========================================
+            // DUPLO CLIQUE NO VÍDEO = TELA CHEIA
+            // ==========================================
+
+            video.ondblclick = () => {
+
+                alternarFullscreen()
+
+            }
+
+
+            // ==========================================
+            // TECLADO
+            // ==========================================
+
+            document.addEventListener('keydown', (e) => {
+
+                // ------------------------------
+                // TECLA F = TELA CHEIA
+                // ------------------------------
+
+                if (e.key.toLowerCase() === 'f') {
+
+                    // Evita repetir se a tecla ficar pressionada
+                    if (e.repeat) return
+
+                    alternarFullscreen()
+
+                }
+
+
+                // ------------------------------
+                // ESPAÇO = PLAY / PAUSE
+                // ------------------------------
+
+                if (e.code === 'Space') {
+
+                    // Evita a página rolar para baixo
+                    e.preventDefault()
+
+                    // Evita repetir enquanto segura a tecla
+                    if (e.repeat) return
+
+                    if (video.paused) {
+
+                        video.play()
+                        mostrarIndicador('▶')
+
+                    } else {
+
+                        video.pause()
+                        mostrarIndicador('❚❚')
+
+                    }
+
+                }
+
+            })
+
+
+
+
+
+
+
+            // ==========================================
+            // FUNÇÃO PARA ENTRAR / SAIR DA TELA CHEIA
+            // ==========================================
+
+            function alternarFullscreen() {
+
+                const player = conteudo.querySelector('.player')
+
+                if (!player) return
+
+                if (!document.fullscreenElement) {
+
+                    player.requestFullscreen()
+
+                } else {
+
+                    document.exitFullscreen()
+
+                }
+            }
+
+
+            const btnFullscreen = conteudo.querySelector('[wm-pause]')
+
+
+            if (btnFullscreen) {
+
+                btnFullscreen.onclick = () => {
+                    alternarFullscreen()
+                }
+
+            }
+
+
+
+            // --- TROCA DE ANIMAÇÃO DO PERSONAGEM E ÍCONE DO BOTÃO ---
+
             video.onplay = () => {
-                if (personagem) personagem.src = 'videos/andando.gif'
+                if (personagem) {
+                    personagem.src = 'videos/andando.gif'
+                }
+
+                if (btnPlay) {
+                    btnPlay.textContent = '❚❚'
+                    btnPlay.title = 'Pause'
+                }
             }
 
             video.onpause = () => {
-                if (personagem) personagem.src = 'videos/parado.png'
+                if (personagem) {
+                    personagem.src = 'videos/parado.png'
+                }
+
+                if (btnPlay) {
+                    btnPlay.textContent = '▶'
+                    btnPlay.title = 'Play'
+                }
             }
 
             video.onended = () => {
-                if (personagem) personagem.src = 'videos/parado.png'
+                if (personagem) {
+                    personagem.src = 'videos/parado.png'
+                }
+
+                if (btnPlay) {
+                    btnPlay.textContent = '▶'
+                    btnPlay.title = 'Play'
+                }
             }
+
+            // ==========================================
+            // ESCONDER CONTROLES APÓS 5 SEGUNDOS
+            // ==========================================
+
+            const player = conteudo.querySelector('.player')
+            const controles = conteudo.querySelector('.controles-container')
+
+            let timerControles
+            let mouseSobreControles = false
+
+            function mostrarControles() {
+
+                if (!controles) return
+
+                controles.classList.remove('controles-escondidos')
+                player.classList.remove('cursor-escondido')
+
+                clearTimeout(timerControles)
+
+                if (document.fullscreenElement === player) {
+
+                    timerControles = setTimeout(() => {
+
+                        if (!mouseSobreControles) {
+
+                            controles.classList.add('controles-escondidos')
+                            player.classList.add('cursor-escondido')
+
+                        }
+
+                    }, 3000)
+                }
+            }
+
+            function esconderControles() {
+
+                if (!controles) return
+
+                clearTimeout(timerControles)
+
+                if (document.fullscreenElement === player) {
+
+                    timerControles = setTimeout(() => {
+
+                        if (!mouseSobreControles) {
+
+                            controles.classList.add('controles-escondidos')
+                            player.classList.add('cursor-escondido')
+
+                        }
+
+                    }, 3000)
+                }
+            }
+
+
+            // Mouse se movimentou dentro do player
+            player.addEventListener('mousemove', () => {
+                mostrarControles()
+            })
+
+
+            // Mouse entrou nos controles
+            controles.addEventListener('mouseenter', () => {
+
+                mouseSobreControles = true
+
+                clearTimeout(timerControles)
+
+                controles.classList.remove('controles-escondidos')
+            })
+
+
+            // Mouse saiu dos controles
+            controles.addEventListener('mouseleave', () => {
+
+                mouseSobreControles = false
+
+                esconderControles()
+            })
+
+
+            // Entrou ou saiu da tela cheia
+            document.addEventListener('fullscreenchange', () => {
+
+                if (document.fullscreenElement === player) {
+
+                    mostrarControles()
+
+                } else {
+
+                    clearTimeout(timerControles)
+
+                    controles.classList.remove('controles-escondidos')
+                    player.classList.remove('cursor-escondido')
+
+                }
+
+            })
 
             // --- MOVIMENTAÇÃO DA BARRA E DO PERSONAGEM ---
             const progressoDiv = conteudo.querySelector('[wm-progresso] > div')
